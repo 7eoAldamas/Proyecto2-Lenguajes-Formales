@@ -1,12 +1,17 @@
 package com.gt.vista.GUI;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
     
+    private ImageIcon image, icon, image2, icon2;
+    
     public Principal() {
         initComponents();
+        colocarImagenes();
         setTitle("Analizador Lenguaje");
         setSize(900, 560);
         setResizable(false);
@@ -20,7 +25,7 @@ public class Principal extends JFrame {
         jMenu1 = new javax.swing.JMenu();
         panelP = new javax.swing.JPanel();
         btnRehacer = new javax.swing.JButton();
-        btnDeshacer1 = new javax.swing.JButton();
+        btnDeshacer = new javax.swing.JButton();
         btnLexico = new javax.swing.JButton();
         btnSintactico = new javax.swing.JButton();
         scrollAText = new javax.swing.JScrollPane();
@@ -44,10 +49,26 @@ public class Principal extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        btnRehacer.setBorderPainted(false);
+        btnRehacer.setContentAreaFilled(false);
+
+        btnDeshacer.setBorderPainted(false);
+        btnDeshacer.setContentAreaFilled(false);
+
         btnLexico.setText("Lexico");
+        btnLexico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLexicoActionPerformed(evt);
+            }
+        });
 
         btnSintactico.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         btnSintactico.setText("Sintactico");
+        btnSintactico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSintacticoActionPerformed(evt);
+            }
+        });
 
         txtArea.setColumns(20);
         txtArea.setRows(5);
@@ -70,7 +91,7 @@ public class Principal extends JFrame {
                             .addComponent(btnSintactico, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(panelPLayout.createSequentialGroup()
-                                    .addComponent(btnDeshacer1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnDeshacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnRehacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(btnLexico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -85,7 +106,7 @@ public class Principal extends JFrame {
                 .addGroup(panelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPLayout.createSequentialGroup()
                         .addGroup(panelPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnDeshacer1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDeshacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnRehacer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnLexico, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -100,15 +121,35 @@ public class Principal extends JFrame {
         menuArchivos.setText("Archivos");
 
         itemAbrir.setText("Abrir");
+        itemAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAbrirActionPerformed(evt);
+            }
+        });
         menuArchivos.add(itemAbrir);
 
         itemNuevo.setText("Nuevo");
+        itemNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemNuevoActionPerformed(evt);
+            }
+        });
         menuArchivos.add(itemNuevo);
 
         itemGuardar.setText("Guardar");
+        itemGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemGuardarActionPerformed(evt);
+            }
+        });
         menuArchivos.add(itemGuardar);
 
         itemGuardarC.setText("Guardar Como");
+        itemGuardarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemGuardarCActionPerformed(evt);
+            }
+        });
         menuArchivos.add(itemGuardarC);
 
         menuBarra.add(menuArchivos);
@@ -147,9 +188,44 @@ public class Principal extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAbrirActionPerformed
+        // Evento Abrir Archivo        
+    }//GEN-LAST:event_itemAbrirActionPerformed
 
+    private void itemNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevoActionPerformed
+        // Evento Abrir Nuevo Archivo
+    }//GEN-LAST:event_itemNuevoActionPerformed
+
+    private void itemGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarActionPerformed
+        // Evento Guardar Archivo
+    }//GEN-LAST:event_itemGuardarActionPerformed
+
+    private void itemGuardarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarCActionPerformed
+        // Evento Guardar Como - Archivo
+    }//GEN-LAST:event_itemGuardarCActionPerformed
+
+    private void btnLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLexicoActionPerformed
+        // Análisis Léxico
+    }//GEN-LAST:event_btnLexicoActionPerformed
+
+    private void btnSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSintacticoActionPerformed
+        // Análisis Sintáctico
+    }//GEN-LAST:event_btnSintacticoActionPerformed
+
+    //--- Imágenes Botones (Deshacer-Rehacer)
+    private void colocarImagenes() {
+        image = new ImageIcon(getClass().getResource("/com/gt/vista/image/previous.png"));
+        icon = new ImageIcon(image.getImage().getScaledInstance(btnDeshacer.getWidth(), btnDeshacer.getHeight(), Image.SCALE_SMOOTH));
+        btnDeshacer.setIcon(icon);
+        
+        image2 = new ImageIcon(getClass().getResource("/com/gt/vista/image/next.png"));
+        icon2 = new ImageIcon(image2.getImage().getScaledInstance(btnRehacer.getWidth(), btnRehacer.getHeight(), Image.SCALE_SMOOTH));
+        btnRehacer.setIcon(icon2);
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDeshacer1;
+    private javax.swing.JButton btnDeshacer;
     private javax.swing.JButton btnLexico;
     private javax.swing.JButton btnRehacer;
     private javax.swing.JButton btnSintactico;
