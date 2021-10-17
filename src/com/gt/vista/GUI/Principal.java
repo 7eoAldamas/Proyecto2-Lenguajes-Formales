@@ -1,14 +1,20 @@
 package com.gt.vista.GUI;
 
+import com.gt.archivo.Archivo;
 import com.gt.vista.Borde;
 import java.awt.Image;
+import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
     
     private ImageIcon image, icon, image2, icon2;
+    private Archivo archivo = new Archivo();   
+    private File aux;
     
     public Principal() {
         initComponents();
@@ -191,19 +197,36 @@ public class Principal extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAbrirActionPerformed
-        // Evento Abrir Archivo        
+        // Evento Abrir Archivo - Leer Archivo  
+        JFileChooser jfile = new JFileChooser();
+        jfile.setApproveButtonText("Abrir");
+        aux = archivo.obtenerPath(jfile, this);
+        archivo.leerArchivo(aux, txtArea);
     }//GEN-LAST:event_itemAbrirActionPerformed
 
     private void itemNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemNuevoActionPerformed
         // Evento Abrir Nuevo Archivo
+        JFileChooser jfile = new JFileChooser();
+        jfile.setApproveButtonText("Abrir");
+        aux = archivo.obtenerPath(jfile, this);
+        archivo.abrirArchivo(aux, txtArea);        
     }//GEN-LAST:event_itemNuevoActionPerformed
 
     private void itemGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarActionPerformed
         // Evento Guardar Archivo
+        if (aux != null) {
+            File auxPath = aux.getAbsoluteFile();
+            archivo.guardarArchivo(auxPath, txtArea);
+        } else {
+            JOptionPane.showMessageDialog(txtArea, "La acción no se puede ejecutar\n    Presione Guardar Como", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_itemGuardarActionPerformed
 
     private void itemGuardarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarCActionPerformed
         // Evento Guardar Como - Archivo
+        JFileChooser jfile = new JFileChooser();
+        jfile.setApproveButtonText("Guardar");
+        aux = archivo.guardarComoArchivo(jfile, txtArea, this);        
     }//GEN-LAST:event_itemGuardarCActionPerformed
 
     private void btnLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLexicoActionPerformed
@@ -224,7 +247,6 @@ public class Principal extends JFrame {
         icon2 = new ImageIcon(image2.getImage().getScaledInstance(btnRehacer.getWidth(), btnRehacer.getHeight(), Image.SCALE_SMOOTH));
         btnRehacer.setIcon(icon2);
     }
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeshacer;

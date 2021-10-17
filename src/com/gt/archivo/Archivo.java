@@ -15,6 +15,8 @@ public class Archivo {
 
     //--- Lectura de Archivo
     public void leerArchivo(File path, JTextArea txtArea) {
+        txtArea.selectAll();
+        txtArea.replaceSelection(null);
         try (FileReader file = new FileReader(path);
                 BufferedReader br = new BufferedReader(file)) {
 
@@ -47,13 +49,15 @@ public class Archivo {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(txtArea, "Guardar Archivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     //--- Guardar Como - Archivo
-    public void guardarComoArchivo(JFileChooser file, JTextArea txtArea, Principal menu) {
+    public File guardarComoArchivo(JFileChooser file, JTextArea txtArea, Principal menu) {
+        File aux = null;
         int select = file.showOpenDialog(menu);
         if (select == JFileChooser.APPROVE_OPTION) {
-            File aux = new File(file.getSelectedFile() + ".txt");
+            aux = new File(file.getSelectedFile() + ".txt");
             try (FileWriter fwriter = new FileWriter(aux);
                     BufferedWriter bw = new BufferedWriter(fwriter)) {
 
@@ -61,8 +65,9 @@ public class Archivo {
                 bw.newLine();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(txtArea, "Guardar Archivo", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            }            
         }
+        return aux;
     }
 
     //--- Obtener Path - Archivo
