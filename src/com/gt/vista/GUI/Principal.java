@@ -1,5 +1,6 @@
 package com.gt.vista.GUI;
 
+import com.gt.vista.Borde;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -12,6 +13,7 @@ public class Principal extends JFrame {
     public Principal() {
         initComponents();
         colocarImagenes();
+        txtArea.setBorder(new Borde());
         setTitle("Analizador Lenguaje");
         setSize(900, 560);
         setResizable(false);

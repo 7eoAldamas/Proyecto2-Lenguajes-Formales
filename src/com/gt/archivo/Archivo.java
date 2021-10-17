@@ -27,7 +27,7 @@ public class Archivo {
             JOptionPane.showMessageDialog(txtArea, "Lectura de Archivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     //--- Nuevo - Archivo
     public void abrirArchivo(File path, JTextArea txtArea) {
         txtArea.selectAll();
@@ -47,8 +47,8 @@ public class Archivo {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(txtArea, "Guardar Archivo", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }    
-    
+    }
+
     //--- Guardar Como - Archivo
     public void guardarComoArchivo(JFileChooser file, JTextArea txtArea, Principal menu) {
         int select = file.showOpenDialog(menu);
@@ -64,7 +64,7 @@ public class Archivo {
             }
         }
     }
-    
+
     //--- Obtener Path - Archivo
     public File obtenerPath(JFileChooser file, Principal menu) {
         File auxPath = null;
@@ -73,6 +73,6 @@ public class Archivo {
             auxPath = file.getSelectedFile();
         }
         return auxPath;
-    }    
-    
+    }
+
 }
