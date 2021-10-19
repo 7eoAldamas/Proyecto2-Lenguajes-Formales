@@ -13,7 +13,7 @@ public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
     
     private ImageIcon image, icon, image2, icon2;
-    private Archivo archivo = new Archivo();   
+    private final Archivo archivo = new Archivo();   
     private File aux;
     
     public Principal() {
@@ -173,9 +173,19 @@ public class Principal extends JFrame {
         menuBarra.add(menuEdit);
 
         menuReport.setText("Reportes");
+        menuReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuReportMouseClicked(evt);
+            }
+        });
         menuBarra.add(menuReport);
 
         menuAcercaDe.setText("Acerca De");
+        menuAcercaDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuAcercaDeMouseClicked(evt);
+            }
+        });
         menuBarra.add(menuAcercaDe);
 
         setJMenuBar(menuBarra);
@@ -236,6 +246,18 @@ public class Principal extends JFrame {
     private void btnSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSintacticoActionPerformed
         // Análisis Sintáctico
     }//GEN-LAST:event_btnSintacticoActionPerformed
+
+    private void menuAcercaDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAcercaDeMouseClicked
+        // Evento - Acerca De
+        JOptionPane.showMessageDialog(this, "202030011 - Leobardo Daniel González Aldamas\n"
+                                          + "Centro Universitario de Occidente - USAC\n"       
+                                          + "Lenguajes Formales y de Computación\n"
+                                          + "2021", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_menuAcercaDeMouseClicked
+
+    private void menuReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportMouseClicked
+        // Evento Visualización de Reportes
+    }//GEN-LAST:event_menuReportMouseClicked
 
     //--- Imágenes Botones (Deshacer-Rehacer)
     private void colocarImagenes() {
