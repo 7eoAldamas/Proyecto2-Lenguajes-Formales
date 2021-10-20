@@ -57,6 +57,8 @@ public class Principal extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        panelP.setBackground(new java.awt.Color(93, 109, 126));
+
         btnRehacer.setBorderPainted(false);
         btnRehacer.setContentAreaFilled(false);
 
@@ -256,7 +258,8 @@ public class Principal extends JFrame {
     }//GEN-LAST:event_menuAcercaDeMouseClicked
 
     private void menuReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportMouseClicked
-        // Evento Visualización de Reportes
+        // Evento Visualización de TokenR
+        new TokenR(this, true, true).setVisible(true);
     }//GEN-LAST:event_menuReportMouseClicked
 
     //--- Imágenes Botones (Deshacer-Rehacer)
