@@ -1,19 +1,18 @@
 package com.gt.vista.GUI;
 
 import com.gt.archivo.Archivo;
+import com.gt.control.lexico.Lexer;
 import com.gt.vista.Borde;
 import java.awt.Image;
 import java.io.File;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
     
     private ImageIcon image, icon, image2, icon2;
-    private final Archivo archivo = new Archivo();   
+    private final Archivo archivo = new Archivo();
+    private Lexer lexer;
     private File aux;
     
     public Principal() {
@@ -243,6 +242,8 @@ public class Principal extends JFrame {
 
     private void btnLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLexicoActionPerformed
         // Análisis Léxico
+        lexer = new Lexer();
+        lexer.analizarToken(txtArea, txtALog);
     }//GEN-LAST:event_btnLexicoActionPerformed
 
     private void btnSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSintacticoActionPerformed

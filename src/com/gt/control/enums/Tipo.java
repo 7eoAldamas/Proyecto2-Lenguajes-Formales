@@ -16,5 +16,9 @@ public enum Tipo {
     private Tipo(String tipoToken){
         this.tipoToken = tipoToken;
     }
-    
+
+    public String getTipoToken() {
+        return tipoToken;
+    }
+        
 }

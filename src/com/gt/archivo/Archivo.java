@@ -1,14 +1,8 @@
 package com.gt.archivo;
 
 import com.gt.vista.GUI.Principal;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import java.io.*;
+import javax.swing.*;
 
 public class Archivo {
 //---
