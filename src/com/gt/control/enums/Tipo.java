@@ -7,9 +7,9 @@ public enum Tipo {
     ENTERO("Entero"),
     IDENTIFICADOR("Identificador"),
     COMENTARIOS("Comentario"),
-    OPERADOR("Operador Aritmético"),
-    ASIGNACION("Signo Igual"),
-    AGRUPACION("Signo de Agrupación"),
+    OPERADOR("O. Aritmético"),
+    ASIGNACION("S. Igual"),
+    AGRUPACION("S. Agrupación"),
     LITERALES("Literal"),
     ERROR("Error");
 

@@ -67,7 +67,7 @@ public class Lexer {
             
             caracter = cadena.charAt(pos);                                    
             
-            if (Character.isWhitespace(caracter)) {
+            if (Character.isWhitespace(caracter) && estadoActual != 4) {
                 siguiente = false;
             } else {
                 isFila = false;
@@ -76,14 +76,10 @@ public class Lexer {
                 token += caracter;  
                 txtLog.append("Estado ->  " +auxEstado+ "     |     Transición ->  "+estadoActual+"     |     Caracter [ "+caracter+" ]");                
                 txtLog.append("\n");
-                
-                if (estadoActual == -1) {
-                    siguiente = false; //Error - Reinicio - Recuperación de Errores 
-                    txtLog.append("*-\t Error     |     Caracter [ "+caracter+" ]");
-                    txtLog.append("\n");
-                    txtLog.append("*-\t Posible Token -----------------------------");
-                    continue;
-                }            
+            }
+            
+            if (estadoActual == -1) {
+                siguiente = false;
             }
             
             col++;
@@ -115,7 +111,7 @@ public class Lexer {
     
     //--- Evaluación del Alfabeto
     public int evaluarAlfabeto(char caracter) {
-        int estado = 13; //Error
+        int estado = 0; //Error
         if (isLetra(caracter)) {
             estado = 0;
         } else if (isNumero(caracter)) {
@@ -171,8 +167,16 @@ public class Lexer {
         return isValido;
     }
     
-    //--- Literales
+    //--- Literales        
     public boolean isLiteral(char caracter) {
+        boolean isValido = false;
+        if (caracter == '"') {
+            isValido = true;
+        }
+        return isValido;
+    }
+    
+    public boolean isLiteralRes(char caracter) {
         boolean isValido = false;
         switch(caracter) {
             case '<' -> {isValido = true;}
@@ -180,8 +184,7 @@ public class Lexer {
             case ':' -> {isValido = true;}
             case ';' -> {isValido = true;}
             case ',' -> {isValido = true;}
-            case '\'' -> {isValido = true;} 
-            case '"' -> {isValido = true;} 
+            case '\'' -> {isValido = true;}            
         }        
         return isValido;
     }
