@@ -11,7 +11,7 @@ public class Pila {
         this.size = 0;
     }
     
-    //--- Obtener Elemento - Pila
+    //--- Obtener Elemento Específico - Pila
     public String obtenerElemento(int index) {
         int contador = 0;
         Nodo tmp = cabeza;
@@ -22,8 +22,8 @@ public class Pila {
         return tmp.obtenerToken();
     }
     
-    //--- Añadir Primero (Elemento - Token)
-    public void addPrimero(String token) {
+    //--- Añadir (Elemento - Token) - Push
+    public void addElemento(String token) {
         if (cabeza == null) {
             cabeza = new Nodo(token);
         } else {
@@ -35,12 +35,16 @@ public class Pila {
         size++;
     }
     
+    //--- Retornar (Elemento - Token) - Pop
+    
+    //--- Obtner Último Elemento - Peek       
+    
     //--- Tamaño - Pila
     public int size() {
         return size;
     }
     
-    //--- Verificar contenido - Pila
+    //--- Verificar contenido - Pila - Empty
     public boolean isVacia() {
         return (cabeza == null);
     }

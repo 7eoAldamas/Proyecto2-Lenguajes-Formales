@@ -1,18 +1,22 @@
 package com.gt.vista.GUI;
 
+import com.gt.control.lexico.Reporte;
+import com.gt.modelo.Token;
+import java.util.List;
 import javax.swing.JDialog;
 
 public class TokenR extends JDialog {
 //--- Ventana TokenR                            
 
-    private Principal principal;
+    private Principal menu;
     private boolean init;
     
-    public TokenR(Principal parent, boolean modal, boolean init) {
+    public TokenR(Principal parent, boolean modal, boolean init, List<Token> listaTokens) {
         super(parent, modal);
-        this.principal = parent;
-        this.init = init;     
         initComponents();
+        this.menu = parent;
+        this.init = init;
+        Reporte.tablaTokens(listaTokens, tableReport);
         setTitle("Reportes");
         setSize(600, 350);
         setResizable(false);

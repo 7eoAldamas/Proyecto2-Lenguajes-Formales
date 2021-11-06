@@ -6,18 +6,22 @@ import com.gt.vista.Borde;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.*;
+import javax.swing.undo.*;
 
 public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
     
     private ImageIcon image, icon, image2, icon2;
     private final Archivo archivo = new Archivo();
+    private UndoManager undoManager;
     private Lexer lexer;
     private File aux;
     
     public Principal() {
         initComponents();
         colocarImagenes();
+        undoManager = new UndoManager();
+        undoManager.setLimit(10);        
         txtArea.setBorder(new Borde());
         setTitle("Analizador Lenguaje");
         setSize(900, 560);
@@ -60,9 +64,19 @@ public class Principal extends JFrame {
 
         btnRehacer.setBorderPainted(false);
         btnRehacer.setContentAreaFilled(false);
+        btnRehacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRehacerActionPerformed(evt);
+            }
+        });
 
         btnDeshacer.setBorderPainted(false);
         btnDeshacer.setContentAreaFilled(false);
+        btnDeshacer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeshacerActionPerformed(evt);
+            }
+        });
 
         btnLexico.setText("Lexico");
         btnLexico.addActionListener(new java.awt.event.ActionListener() {
@@ -242,8 +256,12 @@ public class Principal extends JFrame {
 
     private void btnLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLexicoActionPerformed
         // Análisis Léxico
-        lexer = new Lexer();
-        lexer.analizarToken(txtArea, txtALog);
+        if (txtArea.getText() != null) {
+            lexer = new Lexer();
+            lexer.analizarToken(txtArea, txtALog);
+        } else {
+            JOptionPane.showMessageDialog(this, "La acción no se puede ejecutar", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnLexicoActionPerformed
 
     private void btnSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSintacticoActionPerformed
@@ -259,9 +277,29 @@ public class Principal extends JFrame {
     }//GEN-LAST:event_menuAcercaDeMouseClicked
 
     private void menuReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportMouseClicked
-        // Evento Visualización de TokenR
-        new TokenR(this, true, true).setVisible(true);
+        // Evento Visualizar Reporte de Tokens         
+        if (lexer.getRtokenErroneo().isEmpty() && lexer.getRTokenValido().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Sin Registros", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else if (lexer.getRtokenErroneo().isEmpty()) {
+            new TokenR(this, true, true, lexer.getRTokenValido()).setVisible(true);
+        } else {
+            new Error(this, true, true, lexer.getRtokenErroneo()).setVisible(true);
+        }
     }//GEN-LAST:event_menuReportMouseClicked
+
+    private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
+        // Deshacer <-
+        try {
+            undoManager.undo();
+        } catch (CannotUndoException e) {}
+    }//GEN-LAST:event_btnDeshacerActionPerformed
+
+    private void btnRehacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRehacerActionPerformed
+        // Rehacer -> 
+        try {
+            undoManager.redo();
+        } catch (CannotRedoException e) {}        
+    }//GEN-LAST:event_btnRehacerActionPerformed
 
     //--- Imágenes Botones (Deshacer-Rehacer)
     private void colocarImagenes() {
