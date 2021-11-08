@@ -1,34 +1,66 @@
 package com.gt.control.sintactico;
 
-public class Nodo {
-//---    
-    
-    private String token;
-    private Nodo siguiente;
-    
-    public Nodo(String token) {
-        this.token = token;
-        this.siguiente = null;
-    }
+import java.util.*;
 
-    public Nodo(String token, Nodo siguiente) {
-        this.token = token;
+public class Nodo {
+//---
+
+    private String lexema;
+    private Nodo siguiente;
+    private List<Nodo> rama = new ArrayList<>();
+    private List<String> lexemaRama = new ArrayList<>();
+
+    public Nodo(String lexema, Nodo siguiente) {
+        this.lexema = lexema;
         this.siguiente = siguiente;
     }
-    
-    //--- Obtener Valor
-    public String obtenerToken() {
-        return token;
+
+    public Nodo(String lexema) {
+        this.lexema = lexema;
+    }
+
+    public String getLexema() {
+        return lexema;
+    }
+
+    public void setLexema(String lexema) {
+        this.lexema = lexema;
+    }
+
+    public List<String> getLexemaRama() {
+        return lexemaRama;
+    }
+
+    public void setLexemaRama(List<String> lexemaHijos) {
+        this.lexemaRama = lexemaHijos;
+    }
+
+    //--- Añadir Nodo Rama
+    public void addRama(Nodo n) {
+        this.rama.add(n);
+    }
+
+    //--- Obtener Elemento/Nodo Específico
+    public Nodo getNodo(int index) {
+        return this.rama.get(index);
     }
     
-    //--- Enlazar Elementos
-    public void enlazarSiguiente(Nodo n) {
-        siguiente = n;
+    //--- Evaluación de Elementos/Ramas
+    public List<String> analizarRamas(int index) {
+        String aux = "";
+        if (rama.size() > 0) {
+            aux += lexema;
+            lexemaRama.add(aux);
+            rama.stream().map(hijo -> hijo.analizarRamas(index + 1)).forEachOrdered(auxRama -> {
+                auxRama.forEach(result -> {
+                    lexemaRama.add(result);
+                });
+            });
+        } else {
+            aux += "\t" + lexema;
+            lexemaRama.add(aux);
+        }
+        return lexemaRama;
     }
-    
-    //--- Obtener Siguiente Elemento
-    public Nodo obtenerSiguiente() {
-        return siguiente;
-    }
-    
+
 }

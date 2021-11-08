@@ -3,14 +3,15 @@ package com.gt.control.enums;
 public enum Tipo {
 //--- Analizador Léxico - Tipos
 
-    INICIO("Inicio"),
-    ENTERO("Entero"),
-    IDENTIFICADOR("Identificador"),
-    COMENTARIOS("Comentario"),
-    OPERADOR("O. Aritmético"),
-    ASIGNACION("S. Igual"),
-    AGRUPACION("S. Agrupación"),
-    LITERALES("Literal"),
+    INICIO("INICIO"),
+    ENTERO("ENTERO"),
+    IDENTIFICADOR("IDENTIFICADOR"),
+    COMENTARIOS("COMENTARIO"),
+    OPERADOR("O. ARITMETICO"),
+    ASIGNACION("S. IGUAL"),
+    AGRUPACION("S. AGRUPACION"),
+    LITERAL("LITERAL"),
+    FINAL("FINAL"),
     ERROR("Error");
 
     private String tipoToken;

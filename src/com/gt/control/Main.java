@@ -1,6 +1,5 @@
 package com.gt.control;
 
-import com.gt.control.sintactico.Pila;
 import com.gt.vista.GUI.Principal;
 import java.awt.EventQueue;
 

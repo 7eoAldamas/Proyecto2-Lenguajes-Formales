@@ -11,15 +11,15 @@ public class Lexer {
     private List<Token> rTokenValido = new ArrayList<>();
     private List<Token> rTokenErroneo = new ArrayList<>();
     private String cadena;
-    private boolean isFila = false;
     private int pos = 0;
     private int fila = 1;
     private int col = 0;
     private int estadoActual = 0;
+    private boolean isFila = false;
     
     //--- Matriz de Transición δ
 
-                               //1-ID ; 2-D ; 3-Literal ; 5-Comentario ; 6-Agrupación ; 7-Operador ; 8-Signo Igual ; 13-Error  
+             //1-ID ; 2-D ; 3-Literal ; 5-Comentario ; 6-Agrupación ; 7-Operador ; 8-Signo Igual ; 13-Error  
                                //[0,0][0,1][0,2][0,3][0,4][0,5][0,6][0,7][0,8][0,9][0,10][0,11][0,12][0,13]
     private int [][] matrizT = {{  1,  -1,   2,  -1,   2,   4,  -1,   7,   6,   9,   8,    0,    0,    -1}, 
                                //[1,0][1,1][1,2][1,3][1,4][1,5][1,6][1,7][1,8][1,9][1,10][1,11][1,12][1,13]
@@ -42,8 +42,8 @@ public class Lexer {
                                 { -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,   5,   -1,  -1,   -1,    -1}};
                                
         
-    //--- Analizar Token
-    public void analizarToken(JTextArea txtArea, JTextArea txtLog) {
+    //--- Analizador Léxico
+    public void analizadorLexico(JTextArea txtArea, JTextArea txtLog) {
         txtLog.selectAll();
         txtLog.replaceSelection(null);
         cadena = txtArea.getText();
@@ -52,7 +52,7 @@ public class Lexer {
         }
     }    
     
-    //--- Validación de Tokens
+    //--- Analizar Tokens - Parte Léxica
     public void token(JTextArea txtLog) {
         boolean siguiente = true;
         char caracter;
@@ -102,7 +102,6 @@ public class Lexer {
         try {
             if (estadoActual >= 0 && estadoActual <=9) { 
                 siguienteEstado = matrizT[estadoActual][evaluarAlfabeto(caracter)];
-                System.out.println(siguienteEstado);
             }   
         } catch (Exception e) {
         }
@@ -136,7 +135,7 @@ public class Lexer {
         switch(estadoActual) {
             case 1 -> {token = IDENTIFICADOR.getTipoToken();}
             case 2 -> {token = ENTERO.getTipoToken();}
-            case 3 -> {token = LITERALES.getTipoToken();}
+            case 3 -> {token = LITERAL.getTipoToken();}
             case 5 -> {token = COMENTARIOS.getTipoToken();}            
             case 6 -> {token = AGRUPACION.getTipoToken();}
             case 7 -> {token = OPERADOR.getTipoToken();}
@@ -240,6 +239,7 @@ public class Lexer {
         }
     }  
     
+    //--- Obtener Lista de Tokens 
     public List<Token> getRTokenValido() {
         return rTokenValido;
     }

@@ -2,33 +2,32 @@ package com.gt.vista.GUI;
 
 import com.gt.archivo.Archivo;
 import com.gt.control.lexico.Lexer;
-import com.gt.vista.Borde;
+import com.gt.control.sintactico.Parser;
+import com.gt.vista.*;
 import java.awt.Image;
 import java.io.File;
+import java.util.List;
 import javax.swing.*;
-import javax.swing.undo.*;
 
 public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
-    
+
     private ImageIcon image, icon, image2, icon2;
     private final Archivo archivo = new Archivo();
-    private UndoManager undoManager;
     private Lexer lexer;
+    private Parser parser;
     private File aux;
-    
+
     public Principal() {
         initComponents();
         colocarImagenes();
-        undoManager = new UndoManager();
-        undoManager.setLimit(10);        
         txtArea.setBorder(new Borde());
         setTitle("Analizador Lenguaje");
         setSize(900, 560);
         setResizable(false);
         setLocationRelativeTo(null);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -97,6 +96,7 @@ public class Principal extends JFrame {
         txtArea.setRows(5);
         scrollAText.setViewportView(txtArea);
 
+        txtALog.setEditable(false);
         txtALog.setColumns(20);
         txtALog.setRows(5);
         scrollLText.setViewportView(txtALog);
@@ -234,7 +234,7 @@ public class Principal extends JFrame {
         JFileChooser jfile = new JFileChooser();
         jfile.setApproveButtonText("Abrir");
         aux = archivo.obtenerPath(jfile, this);
-        archivo.abrirArchivo(aux, txtArea);        
+        archivo.abrirArchivo(aux, txtArea);
     }//GEN-LAST:event_itemNuevoActionPerformed
 
     private void itemGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemGuardarActionPerformed
@@ -251,14 +251,14 @@ public class Principal extends JFrame {
         // Evento Guardar Como - Archivo
         JFileChooser jfile = new JFileChooser();
         jfile.setApproveButtonText("Guardar");
-        aux = archivo.guardarComoArchivo(jfile, txtArea, this);        
+        aux = archivo.guardarComoArchivo(jfile, txtArea, this);
     }//GEN-LAST:event_itemGuardarCActionPerformed
 
     private void btnLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLexicoActionPerformed
         // Análisis Léxico
         if (txtArea.getText() != null) {
             lexer = new Lexer();
-            lexer.analizarToken(txtArea, txtALog);
+            lexer.analizadorLexico(txtArea, txtALog);
         } else {
             JOptionPane.showMessageDialog(this, "La acción no se puede ejecutar", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -266,14 +266,32 @@ public class Principal extends JFrame {
 
     private void btnSintacticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSintacticoActionPerformed
         // Análisis Sintáctico
+        parser = new Parser();
+        List<String> analisis = parser.evaluarToken(lexer.getRTokenValido());
+        if (analisis.get(analisis.size() - 1).equals("")) {
+            for (int i = 0; i < analisis.size() - 2; i++) {
+                txtALog.append(analisis.get(i) + "\n");
+            }
+            txtALog.append(analisis.get(analisis.size() - 2) + "\n");
+        } else {
+            for (String n : analisis) {
+                txtALog.append(n + "\n");
+            }
+        }
+        try {
+            parser.analizadorSintactico();
+        } catch (Exception e) {
+            System.out.println("Error Análisis Sintáctico");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnSintacticoActionPerformed
 
     private void menuAcercaDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAcercaDeMouseClicked
         // Evento - Acerca De
         JOptionPane.showMessageDialog(this, "202030011 - Leobardo Daniel González Aldamas\n"
-                                          + "Centro Universitario de Occidente - USAC\n"       
-                                          + "Lenguajes Formales y de Computación\n"
-                                          + "2021", "Información", JOptionPane.INFORMATION_MESSAGE);
+                + "Centro Universitario de Occidente - USAC\n"
+                + "Lenguajes Formales y de Computación\n"
+                + "2021", "Información", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_menuAcercaDeMouseClicked
 
     private void menuReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReportMouseClicked
@@ -289,16 +307,10 @@ public class Principal extends JFrame {
 
     private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
         // Deshacer <-
-        try {
-            undoManager.undo();
-        } catch (CannotUndoException e) {}
     }//GEN-LAST:event_btnDeshacerActionPerformed
 
     private void btnRehacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRehacerActionPerformed
         // Rehacer -> 
-        try {
-            undoManager.redo();
-        } catch (CannotRedoException e) {}        
     }//GEN-LAST:event_btnRehacerActionPerformed
 
     //--- Imágenes Botones (Deshacer-Rehacer)
@@ -306,12 +318,12 @@ public class Principal extends JFrame {
         image = new ImageIcon(getClass().getResource("/com/gt/vista/image/previous.png"));
         icon = new ImageIcon(image.getImage().getScaledInstance(btnDeshacer.getWidth(), btnDeshacer.getHeight(), Image.SCALE_SMOOTH));
         btnDeshacer.setIcon(icon);
-        
+
         image2 = new ImageIcon(getClass().getResource("/com/gt/vista/image/next.png"));
         icon2 = new ImageIcon(image2.getImage().getScaledInstance(btnRehacer.getWidth(), btnRehacer.getHeight(), Image.SCALE_SMOOTH));
         btnRehacer.setIcon(icon2);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeshacer;
     private javax.swing.JButton btnLexico;
