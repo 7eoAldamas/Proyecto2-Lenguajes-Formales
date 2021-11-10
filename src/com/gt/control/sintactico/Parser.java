@@ -20,7 +20,7 @@ public class Parser {
     //--- Analizar Pila - Parte Sintáctica
     public Object analizador(Nodo n) {
         switch (n.getLexema()) {
-            case "ESTRUCTURA" -> {
+            case "L" -> {
                 if (!n.getNodo(0).getLexema().equals("ϵ")) {
                     analizador(n.getNodo(0));
                     analizador(n.getNodo(1));

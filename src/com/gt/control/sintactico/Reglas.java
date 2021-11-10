@@ -3,7 +3,7 @@ package com.gt.control.sintactico;
 public class Reglas {
 //--- Reglas de Producción    
     
-    private String inicio; //Derivación inicial
+    private String inicio;
     private String[][] derivaciones;
     
     public Reglas(String inicio, String[][] derivaciones) {
