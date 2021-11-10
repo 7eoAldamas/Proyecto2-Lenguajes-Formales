@@ -42,7 +42,7 @@ public class Parser {
                             String auxID = simbolos.get(aux.getNodo(0).getLexema()).toString();
                             cadena.add(auxID);
                         } catch (Exception e) {
-                            System.out.println("Error, la variable: \'" + aux.getNodo(0).getLexema() + "\' no ha sido inicializada");
+                            System.out.println("Error -> " + aux.getNodo(0).getLexema());
                         }
                     }
                 }
@@ -50,28 +50,28 @@ public class Parser {
             case "REPEAT" -> {
                 Nodo aux = n.getNodo(1);
                 int registro = 0;
-                String auxNodo = n.getNodo(0).getLexema();
+                String auxNodo = aux.getNodo(0).getLexema();
                 switch(auxNodo) {
                     case "ENTERO" -> {
-                        registro = Integer.parseInt(n.getNodo(0).getNodo(0).getLexema());
+                        registro = Integer.parseInt(aux.getNodo(0).getNodo(0).getLexema());
                         if (registro <= 0) {
-                            System.out.println("Salío algo mal y no sé exactamente que sea :c");
+                            System.out.println("Error - Parser");
                         }
                     }
                     case "IDENTIFICADOR" -> {
                         try {
-                            String auxID = simbolos.get(n.getNodo(0).getNodo(0).toString()).toString();
+                            String auxID = simbolos.get(aux.getNodo(0).getNodo(0).toString()).toString();
                             registro = Integer.valueOf(auxID);
                             if (registro <= 0) {
-                                System.out.println("Salío algo mal y no sé exactamente que sea :c");
+                                System.out.println("Error - Parser");
                             }
                         } catch (Exception e) {
-                            System.out.println("Error, la variable: \'"+n.getNodo(0).getNodo(0).getLexema()+"\' no ha sido inicializada");
+                            System.out.println("Error -> "+ aux.getNodo(0).getNodo(0).getLexema());
                         }
                     }
                 }
                 for (int i = 0; i < registro; i++) {
-                    analizador(n.getNodo(2));
+                    analizador(aux.getNodo(2));
                 }
             }
             case "CONDICIONAL" -> {
@@ -85,8 +85,8 @@ public class Parser {
                 }
             }
             case "OPERACION" -> {
-                String auxVariable = "";
-                Integer auxDato = 0;
+                String auxVariable = null;
+                Integer auxDato = null;
                 if (n.getNodo(0).getLexema().equals("IDENTIFICADOR")) {
                     Nodo aux = n.getNodo(1);
                     if (aux.getNodo(0).getLexema().equals("=")) {
@@ -140,10 +140,10 @@ public class Parser {
                     case "IDENTIFICADOR" -> {
                         try {
                             String auxValor = simbolos.get(n.getNodo(0).getNodo(0).getLexema()).toString();
-                            Integer resultado = Integer.valueOf(aux);
+                            Integer resultado = Integer.valueOf(auxValor);
                             return resultado;
                         } catch (Exception e) {
-                            System.out.println("Error, la variable: \'"+n.getNodo(0).getNodo(0).getLexema()+"\' no ha sido inicializada");
+                            System.out.println("Error -> "+n.getNodo(0).getNodo(0).getLexema());
                         }
                     }
                     case "ENTERO" -> {
@@ -167,17 +167,21 @@ public class Parser {
             arbol = pila.analizarToken(tokens);
             registro = arbol.getRaiz().analizarRamas(0);
         } catch (Exception e) {
-            registro = pila.getArbol().getRaiz().analizarRamas(0);
-            registro.add(e.getMessage());
+            registro = pila.getArbol().getRaiz().analizarRamas(0);            
             registro.add("");
         }
         return registro;
     }
+
+    //--- Registro
+    public List<String> getCadena() {
+        return cadena;
+    }        
     
     //--- Reinicio
     private void reiniciar() {
         simbolos = new HashMap<>();
         cadena = new ArrayList<>();
-    }
+    }      
     
 }

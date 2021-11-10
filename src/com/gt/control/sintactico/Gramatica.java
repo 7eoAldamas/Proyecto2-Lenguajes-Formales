@@ -17,7 +17,7 @@ public class Gramatica {
         this.reservados = reservados;
         this.tokensEspeciales = tokensEspeciales;
         this.derivaciones = derivaciones;
-    }
+    }        
 
     public String getInicio() {
         return inicio;

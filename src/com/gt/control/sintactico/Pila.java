@@ -8,24 +8,28 @@ public class Pila {
 //---
 
     private Stack<String> automata;
+    private Stack<Nodo> pilaGuardada;
     private Stack<Nodo> recorrido;
     private Arbol arbol;
     private Nodo cabeza; 
+    private Nodo siguiente;
     private Token token;  
     private int size = 0;
     
     //--- Definición - Gramatica LL1
-    private Gramatica gramatica = new Gramatica("L",                                                                                                        //Épsilon
+    private Gramatica gramatica = new Gramatica("L",                                                                                                                //Épsilon
             new String[]{"(", ")", "=", "+", "*", "ENTERO", "IDENTIFICADOR", "LITERAL", "ESCRIBIR", "REPETIR", "INICIAR", "SI", "VERDADERO", "FALSO", "ENTONCES", "FIN", ""}
             , new String[]{"ESCRIBIR", "REPETIR", "INICIAR", "SI", "VERDADERO", "FALSO", "ENTONCES", "FIN"}
             , new String[]{"LITERAL", "ENTERO", "IDENTIFICADOR"}
-            //Tabla de Análisis Sintáctico LL1 - δ
-            , new Reglas[]{                                                                                                                                            //Épsilon
+            
+            //Tabla de Análisis Sintáctico LL1 - δ            
+            , new Reglas[]{                                                                                                //Épsilon
                 new Reglas("L", new String[][]{{"ESCRITURA", "L"}, {"REPEAT", "L"}, {"CONDICIONAL", "L"}, {"OPERACION", "L"}, {""}}), 
                 //Derivaciones Estructura -> ESCRITURA
                     new Reglas("ESCRITURA", new String[][]{{"ESCRIBIR", "U", "FIN"}}),
                     //Derivaciones No Terminal -> U
                     new Reglas("U", new String[][]{{"LITERAL"}, {"ENTERO"}, {"IDENTIFICADOR"}}),
+                    
                     
                 //Derivaciones Estructura -> REPETIR
                     new Reglas("REPEAT", new String[][]{{"REPETIR", "P", "FIN"}}),
@@ -34,6 +38,7 @@ public class Pila {
                         //Derivaciones No Terminal -> T
                         new Reglas("T", new String[][]{{"ESCRITURA", "T"}, {""}}),
                         
+                        
                 //Derivaciones Estructura -> CONDICIONAL
                     new Reglas("CONDICIONAL", new String[][]{{"SI", "S", "FIN"}}),
                     //Derivaiones No Terminal -> S
@@ -41,6 +46,7 @@ public class Pila {
                         //Derivaiones No Terminal -> Q
                         new Reglas("Q", new String[][]{{"ESCRITURA"}, {""}}),
                     
+                        
                 //Derivaciones Estructura -> OPERACION - ASIGNACION
                     new Reglas("OPERACION", new String[][]{{"IDENTIFICADOR", "X", "FIN"}, {"M", "FIN"}}),
                     //Derivaciones No Terminal -> X
@@ -57,6 +63,7 @@ public class Pila {
                                         new Reglas("Y", new String[][]{{"*", "R"}, {""}}),
                                             //Derivaciones No Terminal -> R
                                             new Reglas("R", new String[][]{{"IDENTIFICADOR"}, {"ENTERO"}, {"(", "V", ")"}}),
+                                           
                                             
                 //Derivaciones ESTRUCTURA -> EXPRESION
                 new Reglas("M", new String[][]{{"N", "O"}}),
@@ -67,7 +74,7 @@ public class Pila {
                             //Derivaciones No Terminal -> E
                             new Reglas("E", new String[][]{{"*", "F"}, {""}}),
                                 //Derivaciones No Terminal -> F
-                                new Reglas("F", new String[][]{{"ENTERO"}, {"(", "M", ")"}}),
+                                new Reglas("F", new String[][]{{"ENTERO"}, {"(", "V", ")"}}),
             });
     
 

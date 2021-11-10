@@ -8,12 +8,16 @@ import java.awt.Image;
 import java.io.File;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.undo.UndoManager;
 
 public class Principal extends JFrame {
 //--- Ventana Principal - Analizador (Léxico/Sintáctico)
 
     private ImageIcon image, icon, image2, icon2;
     private final Archivo archivo = new Archivo();
+    private UndoManager undoManager;
+    private Undo undo;
+    private Redo redo;
     private Lexer lexer;
     private Parser parser;
     private File aux;
@@ -21,6 +25,9 @@ public class Principal extends JFrame {
     public Principal() {
         initComponents();
         colocarImagenes();
+        undoManager = new UndoManager();
+        undo = new Undo(undoManager);
+        redo = new Redo(undoManager);
         txtArea.setBorder(new Borde());
         setTitle("Analizador Lenguaje");
         setSize(900, 560);
@@ -61,7 +68,6 @@ public class Principal extends JFrame {
 
         panelP.setBackground(new java.awt.Color(93, 109, 126));
 
-        btnRehacer.setBorderPainted(false);
         btnRehacer.setContentAreaFilled(false);
         btnRehacer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,7 +75,6 @@ public class Principal extends JFrame {
             }
         });
 
-        btnDeshacer.setBorderPainted(false);
         btnDeshacer.setContentAreaFilled(false);
         btnDeshacer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,21 +273,13 @@ public class Principal extends JFrame {
         // Análisis Sintáctico
         parser = new Parser();
         List<String> analisis = parser.evaluarToken(lexer.getRTokenValido());
-        if (analisis.get(analisis.size() - 1).equals("")) {
-            for (int i = 0; i < analisis.size() - 2; i++) {
-                txtALog.append(analisis.get(i) + "\n");
-            }
-            txtALog.append(analisis.get(analisis.size() - 2) + "\n");
-        } else {
-            for (String n : analisis) {
-                txtALog.append(n + "\n");
-            }
-        }
+        new Result(this, true, true, analisis).setVisible(true);
         try {
             parser.analizadorSintactico();
+            JFileChooser jfile = new JFileChooser();
+            jfile.setApproveButtonText("Guardar");
+            archivo.guardarComoArchivo(jfile, parser.getCadena(), this);
         } catch (Exception e) {
-            System.out.println("Error Análisis Sintáctico");
-            e.printStackTrace();
         }
     }//GEN-LAST:event_btnSintacticoActionPerformed
 
@@ -307,10 +304,12 @@ public class Principal extends JFrame {
 
     private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
         // Deshacer <-
+        undo.actionPerformed(evt);
     }//GEN-LAST:event_btnDeshacerActionPerformed
 
     private void btnRehacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRehacerActionPerformed
         // Rehacer -> 
+        redo.actionPerformed(evt);
     }//GEN-LAST:event_btnRehacerActionPerformed
 
     //--- Imágenes Botones (Deshacer-Rehacer)

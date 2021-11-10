@@ -2,6 +2,7 @@ package com.gt.archivo;
 
 import com.gt.vista.GUI.Principal;
 import java.io.*;
+import java.util.List;
 import javax.swing.*;
 
 public class Archivo {
@@ -62,6 +63,24 @@ public class Archivo {
             }            
         }
         return aux;
+    }
+    
+    //--- Guardar Como - Archivo HTML
+    public void guardarComoArchivo(JFileChooser file, List<String> result, Principal menu) {
+        File aux;
+        String auxDocumento = "";
+        int select = file.showOpenDialog(menu);
+        if (select == JFileChooser.APPROVE_OPTION) {
+            aux = new File(file.getSelectedFile() +  ".html") ;
+            try (FileWriter fwriter = new FileWriter(aux);
+                    BufferedWriter bw = new BufferedWriter(fwriter)) {
+                auxDocumento = result.stream().map(string -> string).reduce(auxDocumento, String::concat);
+                bw.write(auxDocumento);
+                bw.newLine();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(menu, "Guardar Archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            }            
+        }
     }
 
     //--- Obtener Path - Archivo
